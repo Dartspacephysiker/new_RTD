@@ -4,7 +4,7 @@
 
 CC=g++
 
-CFLAGS=-c -Wall `wx-config --cxxflags`
+CFLAGS=-c -Wall `wx-config --cxxflags` -ggdb
 LDFLAGS=`wx-config --libs` -lfftw3
 
 SRC=dartRTD.cpp RTD_conf_reader.c

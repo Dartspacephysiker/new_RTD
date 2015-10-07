@@ -9,9 +9,8 @@
      =================
      2015/10/07          Beginnings
 
+*/
 
-
- */
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
@@ -23,6 +22,16 @@
 #include <fftw3.h>
 
 #include "dartRTD.h"
+
+#define DRTD_MIN_SPEC_WIDTH      500
+#define DRTD_MIN_SPEC_HEIGHT     300
+
+#define DRTD_MIN_ML_WIDTH        150
+
+#define DRTD_MIN_PLOT_WIDTH      500
+#define DRTD_MIN_PLOT_HEIGHT     200
+
+#define DRTD_MIN_PLOTCTL_WIDTH   150
 
 extern "C" {
     //Want to use ascii_conf_reader to read in an RTD conf file
@@ -46,8 +55,10 @@ wxEND_EVENT_TABLE()
 wxIMPLEMENT_APP(DartRTDApp);
 bool DartRTDApp::OnInit()
 {
-    
-    DartRTDFrame *frame = new DartRTDFrame( "Dartmouth RTD", wxPoint(50, 50), wxSize(450, 340) );
+    int frameWidth  = DRTD_MIN_PLOT_WIDTH +  DRTD_MIN_PLOTCTL_WIDTH;
+    int frameHeight = DRTD_MIN_PLOT_HEIGHT + DRTD_MIN_SPEC_HEIGHT;
+
+    DartRTDFrame *frame = new DartRTDFrame( "Dartmouth RTD", wxPoint(50, 50), wxSize(frameWidth, frameHeight) );
     frame->Show( true );
 
     return true;
@@ -80,20 +91,41 @@ DartRTDFrame::DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSi
     CreateStatusBar();
     SetStatusText( "Welcome to Dartmouth RTD!" );
 
-    m_parent = new wxPanel(this, wxID_ANY);
+    /*Master panel for all displays*/
+    MasterPanel = new wxPanel(this, wxID_ANY);
 
-    wxBoxSizer *hbox = new wxBoxSizer(wxHORIZONTAL);
+    /*Parent panel for spectrogram and measurement list*/
+    //    SpecNMeasPanel = new wxPanel(this, wxID_ANY);
+    SpecNMeasPanel = new wxPanel(MasterPanel);
+    mSpectroPanel = new SpectrogramPanel(SpecNMeasPanel);
+    mMeasListPanel = new MeasListPanel(SpecNMeasPanel);
     
-    m_lp = new SpectrogramPanel(m_parent);
-    m_rp = new SpectrListPanel(m_parent);
+    hboxSpecNMeasSizer = new wxBoxSizer(wxHORIZONTAL);			//Set up the spectrogram and measurement list sizer
+    hboxSpecNMeasSizer->Add(mSpectroPanel, 4, wxEXPAND | wxALL, 5);
+    hboxSpecNMeasSizer->Add(mMeasListPanel, 1, wxEXPAND | wxALL, 5);
+    SpecNMeasPanel->SetSizerAndFit(hboxSpecNMeasSizer);
     
-    hbox->Add(m_lp, 1, wxEXPAND | wxALL, 5);
-    hbox->Add(m_rp, 1, wxEXPAND | wxALL, 5);
-    
-    m_parent->SetSizer(hbox);
-    
+    /*Parent panel for plots*/
+    //    mPlotParentPanel = new wxPanel(this, wxID_ANY);
+    mPlotParentPanel = new wxPanel(MasterPanel);
+    mPlotPanel = new PlotPanel(mPlotParentPanel);
+    mPlotCtlPanel   = new PlotCtlPanel(mPlotParentPanel);
+
+    hPlotParentSizer = new wxBoxSizer(wxHORIZONTAL);
+    hPlotParentSizer->Add(mPlotPanel, 4, wxEXPAND | wxALL, 5);
+    hPlotParentSizer->Add(mPlotCtlPanel, 1, wxEXPAND | wxALL, 5);
+    mPlotParentPanel->SetSizerAndFit(hPlotParentSizer);
+
+    vboxall = new wxBoxSizer(wxVERTICAL);				//Set up the sizer for all panels
+    vboxall->Add(SpecNMeasPanel, 2, wxEXPAND | wxALL, 5);
+    vboxall->Add(mPlotParentPanel, 1, wxEXPAND | wxALL, 5);
+    MasterPanel->SetSizerAndFit(vboxall);
     this->Centre();
+
+    SetMinClientSize(MasterPanel->GetBestSize());
+
 }
+
 void DartRTDFrame::OnExit(wxCommandEvent& event)
 {
     Close( true );
@@ -108,12 +140,14 @@ void DartRTDFrame::OnLoadRTDConf(wxCommandEvent& event)
     wxLogMessage("Bout to load dat");
 }
 
+/*Panels*/
 
-SpectrogramPanel::SpectrogramPanel(wxPanel * parent)
-       : wxPanel(parent, -1, wxPoint(-1, -1), wxSize(-1, -1), wxBORDER_SUNKEN)
+/*The panel that holds the spectrograms*/
+SpectrogramPanel::SpectrogramPanel(wxPanel * panSpecNMeas)
+       : wxPanel(panSpecNMeas, -1, wxPoint(-1, -1), wxSize(DRTD_MIN_SPEC_WIDTH, DRTD_MIN_SPEC_HEIGHT), wxBORDER_SUNKEN)
 {
   count = 0;
-  m_parent = parent;
+  SpecNMeasPanel = panSpecNMeas;
   m_plus = new wxButton(this, ID_PLUS, wxT("+"), 
       wxPoint(10, 10));
   m_minus = new wxButton(this, ID_MINUS, wxT("-"), 
@@ -128,22 +162,37 @@ void SpectrogramPanel::OnPlus(wxCommandEvent & WXUNUSED(event))
 {
   count++;
 
-  DartRTDFrame *comm = (DartRTDFrame *) m_parent->GetParent();
-  comm->m_rp->m_text->SetLabel(wxString::Format(wxT("%d"), count));
+
+  DartRTDFrame *comm = (DartRTDFrame *) SpecNMeasPanel->GetParent()->GetParent();
+  comm->mMeasListPanel->m_text->SetLabel(wxString::Format(wxT("%d"), count));
 }
 
 void SpectrogramPanel::OnMinus(wxCommandEvent & WXUNUSED(event))
 {
   count--;
 
-  DartRTDFrame *comm = (DartRTDFrame *) m_parent->GetParent();
-  comm->m_rp->m_text->SetLabel(wxString::Format(wxT("%d"), count));
+  DartRTDFrame *comm = (DartRTDFrame *) SpecNMeasPanel->GetParent()->GetParent();
+  comm->mMeasListPanel->m_text->SetLabel(wxString::Format(wxT("%d"), count));
 }
 
-
-SpectrListPanel::SpectrListPanel(wxPanel * parent)
-       : wxPanel(parent, wxID_ANY, wxDefaultPosition, 
-         wxSize(270, 150), wxBORDER_SUNKEN)
+/*The panel that holds the list of available measurements*/
+MeasListPanel::MeasListPanel(wxPanel * panSpecNMeas)
+       : wxPanel(panSpecNMeas, wxID_ANY, wxDefaultPosition, 
+         wxSize(DRTD_MIN_ML_WIDTH, DRTD_MIN_SPEC_HEIGHT), wxBORDER_SUNKEN)
 {
     m_text = new wxStaticText(this, -1, wxT("0"), wxPoint(40, 60));
+}
+
+PlotPanel::PlotPanel(wxPanel * panPlotParent)
+       : wxPanel(panPlotParent, wxID_ANY, wxDefaultPosition, 
+         wxSize(DRTD_MIN_PLOT_WIDTH, DRTD_MIN_PLOT_HEIGHT), wxBORDER_SUNKEN)
+{
+    m_text = new wxStaticText(this, -1, wxT("The plot panel"), wxPoint(40, 60));
+}
+
+PlotCtlPanel::PlotCtlPanel(wxPanel * panPlotParent)
+       : wxPanel(panPlotParent, wxID_ANY, wxDefaultPosition, 
+         wxSize(DRTD_MIN_PLOTCTL_WIDTH, DRTD_MIN_PLOT_HEIGHT), wxBORDER_SUNKEN)
+{
+    m_text = new wxStaticText(this, -1, wxT("Plot control panel"), wxPoint(40, 60));
 }
