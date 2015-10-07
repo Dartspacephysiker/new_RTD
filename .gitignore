@@ -26,5 +26,6 @@
 *.exe
 *.out
 *.app
-#No hello example
-hello
+
+#No executables
+dartRTD
