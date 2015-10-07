@@ -26,3 +26,5 @@
 *.exe
 *.out
 *.app
+#No hello example
+hello
