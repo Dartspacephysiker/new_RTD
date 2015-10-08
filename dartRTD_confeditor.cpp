@@ -5,16 +5,13 @@
 #	include <wx/wx.h>
 #endif
  
-#include "filedialog.h"
+#include "dartRTD_confeditor.h"
  
-IMPLEMENT_APP(RTDConfApp) // Initializes the RTDConfApp class...
- 
-// .. and tells our program to run it
 bool RTDConfApp::OnInit()
 {
 	// Create an instance of our frame, or window
 	RTDConfFrame *RTDConfWin = new RTDConfFrame(
-		_("Edit"), wxPoint(1, 1), wxSize(300, 200));
+		_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
 	RTDConfWin->Show(TRUE); // show the window
 	SetTopWindow(RTDConfWin); // and finally, set it as the main window
 	return TRUE;
@@ -54,7 +51,11 @@ RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSi
 		this, TEXT_Main, _("Hi!"), wxDefaultPosition, wxDefaultSize, 
 		wxTE_MULTILINE | wxTE_RICH , wxDefaultValidator, wxTextCtrlNameStr);
  
-	Maximize(); // Maximize the window
+	boxRTDConfSizer = new wxBoxSizer(wxHORIZONTAL);
+	boxRTDConfSizer->Add(RTDConfEditBox, 1, wxEXPAND | wxALL, 5);
+	this->SetSizerAndFit(boxRTDConfSizer);
+
+	//	Maximize(); // Maximize the window
 }
  
 void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
@@ -69,11 +70,6 @@ void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
  
 void RTDConfFrame::OpenFile(wxCommandEvent& WXUNUSED(event))
 {
-	// wxFileDialog *OpenDialog = new wxFileDialog(
-	// 	this, _("Choose an RTD configuration to open"), wxEmptyString, wxEmptyString,
-	// 	_("Text files (*.txt)|*.txt|C++ Source Files (*.cpp, *.cxx)|*.cpp;*.cxx|C Source files (*.c)|*.c|C header files (*.h)|*.h"),
-	// 	wxFD_OPEN, wxDefaultPosition);
-
 	wxFileDialog *OpenDialog = new wxFileDialog(
 		this, _("Choose an RTD configuration to open"), wxEmptyString, wxEmptyString,
 		_("RTD Configuration file (*.rtdconf)|*.rtdconf"),
@@ -96,7 +92,7 @@ void RTDConfFrame::CloseFile(wxCommandEvent& WXUNUSED(event))
 	// Clear the Text Box
 	RTDConfEditBox->Clear();
 	// Reset the current File being edited
-	CurrentDocPath = wxT("C:/");
+	CurrentDocPath = wxT("./");
 	// Set the Title to reflect the file open
 	SetTitle(_("Edit - untitled *"));
 }
@@ -109,16 +105,12 @@ void RTDConfFrame::SaveFile(wxCommandEvent& WXUNUSED(event))
  
 void RTDConfFrame::SaveFileAs(wxCommandEvent& WXUNUSED(event))
 {
-	// wxFileDialog *SaveDialog = new wxFileDialog(
-	// 	this, _("Save File As _?"), wxEmptyString, wxEmptyString,
-	// 	_("Text files (*.txt)|*.txt|C++ Source Files (*.cpp)|*.cpp|C Source files (*.c)|*.c|C header files (*.h)|*.h"),
-	// 	wxFD_SAVE | wxFD_OVERWRITE_PROMPT, wxDefaultPosition);
 	wxFileDialog *SaveDialog = new wxFileDialog(
 		this, _("Save File As _?"), wxEmptyString, wxEmptyString,
 		_("RTD Configuration file (*.rtdconf)|*.rtdconf"),
 		wxFD_SAVE | wxFD_OVERWRITE_PROMPT, wxDefaultPosition);
 
-	// Creates a Save Dialog with 4 file types
+	// Creates a Save Dialog
 	if (SaveDialog->ShowModal() == wxID_OK) // If the user clicked "OK"
 	{
 		CurrentDocPath = SaveDialog->GetPath();
@@ -135,4 +127,5 @@ void RTDConfFrame::SaveFileAs(wxCommandEvent& WXUNUSED(event))
 void RTDConfFrame::Quit(wxCommandEvent& WXUNUSED(event))
 {
 	Close(TRUE); // Close the window
+	//LoadNewRTDConfig();
 }

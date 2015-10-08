@@ -22,6 +22,7 @@
 #include <fftw3.h>
 
 #include "dartRTD.h"
+#include "dartRTD_confeditor.h"
 
 #define DRTD_MIN_SPEC_WIDTH      500
 #define DRTD_MIN_SPEC_HEIGHT     300
@@ -46,13 +47,24 @@ enum
     ID_MENUVIEW    = 3
 };
 
-
 wxBEGIN_EVENT_TABLE(DartRTDFrame, wxFrame)
     EVT_MENU(ID_LoadRTDConf,   DartRTDFrame::OnLoadRTDConf)
     EVT_MENU(wxID_EXIT,        DartRTDFrame::OnExit)
     EVT_MENU(wxID_ABOUT,       DartRTDFrame::OnAbout)
+
 wxEND_EVENT_TABLE()
+
+BEGIN_EVENT_TABLE ( RTDConfFrame, wxFrame )
+	EVT_MENU(RTDCONFEDIT_New, RTDConfFrame::NewFile)
+	EVT_MENU(RTDCONFEDIT_Open, RTDConfFrame::OpenFile) 
+	EVT_MENU(RTDCONFEDIT_Close, RTDConfFrame::CloseFile)
+	EVT_MENU(RTDCONFEDIT_Save, RTDConfFrame::SaveFile)
+	EVT_MENU(RTDCONFEDIT_SaveAs, RTDConfFrame::SaveFileAs)
+	EVT_MENU(RTDCONFEDIT_Quit, RTDConfFrame::Quit)
+END_EVENT_TABLE()
+
 wxIMPLEMENT_APP(DartRTDApp);
+
 bool DartRTDApp::OnInit()
 {
     int frameWidth  = DRTD_MIN_PLOT_WIDTH +  DRTD_MIN_PLOTCTL_WIDTH;
@@ -89,7 +101,7 @@ DartRTDFrame::DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSi
 
     SetMenuBar( menuBar );
     CreateStatusBar();
-    SetStatusText( "Welcome to Dartmouth RTD!" );
+    SetStatusText( "Current Configuration file: [code me please]" );
 
     /*Master panel for all displays*/
     MasterPanel = new wxPanel(this, wxID_ANY);
@@ -137,7 +149,13 @@ void DartRTDFrame::OnAbout(wxCommandEvent& event)
 }
 void DartRTDFrame::OnLoadRTDConf(wxCommandEvent& event)
 {
-    wxLogMessage("Bout to load dat");
+    //    wxLogMessage("Bout to load dat");
+
+    // Create an instance of our frame, or window
+    RTDConfFrame *RTDConfWin = new RTDConfFrame(_("Edit"), wxPoint(1, 1), wxSize(300, 200));
+    RTDConfWin->Show(TRUE); // show the window
+    RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
+    RTDConfWin->SetFocus();//Raise it to the top!
 }
 
 /*Panels*/

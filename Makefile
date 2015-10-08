@@ -7,9 +7,9 @@ CC=g++
 CFLAGS=-c -Wall `wx-config --cxxflags` -ggdb
 LDFLAGS=`wx-config --libs` -lfftw3
 
-SRC=dartRTD.cpp RTD_conf_reader.c
+SRC=dartRTD.cpp dartRTD_confeditor.cpp RTD_conf_reader.c
 OBJ=$(SRC:.cpp=.o)
-HDR = dartRTD.h RTD_conf_reader.h dartRTD_structs.h
+HDR = dartRTD.h dartRTD_confeditor.h   RTD_conf_reader.h dartRTD_structs.h
 
 EXEC=dartRTD
 

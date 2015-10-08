@@ -2,6 +2,9 @@
 #include <wx/menu.h>
 #include <wx/textctrl.h>
  
+#ifndef __DART_RTD_CONFEDIT_H_INCLUDED__   
+#define __DART_RTD_CONFEDIT_H_INCLUDED__   
+
 // RTDConfApp is the class for our application, it just acts
 // as a container for the window or frame in RTDConfFrame.
 class RTDConfApp: public wxApp
@@ -24,6 +27,8 @@ public:
 	void SaveFileAs( wxCommandEvent& event );
 	void CloseFile( wxCommandEvent& event );
  
+	wxBoxSizer         * boxRTDConfSizer;
+
 	wxTextCtrl *RTDConfEditBox;
 	wxMenuBar *RTDConfMenu;
 	// The Path to the file we have open
@@ -44,11 +49,4 @@ enum
 	RTDCONFEDIT_Quit
 };
  
-BEGIN_EVENT_TABLE ( RTDConfFrame, wxFrame )
-	EVT_MENU(RTDCONFEDIT_New, RTDConfFrame::NewFile)
-	EVT_MENU(RTDCONFEDIT_Open, RTDConfFrame::OpenFile) 
-	EVT_MENU(RTDCONFEDIT_Close, RTDConfFrame::CloseFile)
-	EVT_MENU(RTDCONFEDIT_Save, RTDConfFrame::SaveFile)
-	EVT_MENU(RTDCONFEDIT_SaveAs, RTDConfFrame::SaveFileAs)
-	EVT_MENU(RTDCONFEDIT_Quit, RTDConfFrame::Quit)
-END_EVENT_TABLE()
+#endif //end #define __DART_RTD_CONFEDIT_H_INCLUDED__   
