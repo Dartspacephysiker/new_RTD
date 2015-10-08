@@ -7,16 +7,6 @@
  
 #include "dartRTD_confeditor.h"
  
-bool RTDConfApp::OnInit()
-{
-	// Create an instance of our frame, or window
-	RTDConfFrame *RTDConfWin = new RTDConfFrame(
-		_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
-	RTDConfWin->Show(TRUE); // show the window
-	SetTopWindow(RTDConfWin); // and finally, set it as the main window
-	return TRUE;
-}
- 
 RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
 : wxFrame((wxFrame*) NULL, -1, title, pos, size)
 {
@@ -54,8 +44,6 @@ RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSi
 	boxRTDConfSizer = new wxBoxSizer(wxHORIZONTAL);
 	boxRTDConfSizer->Add(RTDConfEditBox, 1, wxEXPAND | wxALL, 5);
 	this->SetSizerAndFit(boxRTDConfSizer);
-
-	//	Maximize(); // Maximize the window
 }
  
 void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
@@ -65,7 +53,7 @@ void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
 	// reset the path of our current open file
 	CurrentDocPath = wxT("./");
 	// Set the Title to reflect the file open
-	SetTitle(_("Edit - untitled *"));
+	SetTitle(_("RTD Configuration Editor - untitled.rtdconf *"));
 }
  
 void RTDConfFrame::OpenFile(wxCommandEvent& WXUNUSED(event))
@@ -83,7 +71,7 @@ void RTDConfFrame::OpenFile(wxCommandEvent& WXUNUSED(event))
 		// Sets our current RTD configuration file to the file the user selected
 		RTDConfEditBox->LoadFile(CurrentDocPath); //Opens that file
 		// Set the Title to reflect the  file open
-		SetTitle(wxString("Edit - ") << OpenDialog->GetFilename());
+		SetTitle(wxString("RTD Configuration Editor - ") << OpenDialog->GetFilename());
 	}
 }
  
@@ -94,7 +82,7 @@ void RTDConfFrame::CloseFile(wxCommandEvent& WXUNUSED(event))
 	// Reset the current File being edited
 	CurrentDocPath = wxT("./");
 	// Set the Title to reflect the file open
-	SetTitle(_("Edit - untitled *"));
+	SetTitle(_("RTD Configuration Editor - untitled.rtdconf *"));
 }
  
 void RTDConfFrame::SaveFile(wxCommandEvent& WXUNUSED(event))
@@ -117,7 +105,7 @@ void RTDConfFrame::SaveFileAs(wxCommandEvent& WXUNUSED(event))
 		// set the path of our current RTD configuration file to the file the user chose to save under
 		RTDConfEditBox->SaveFile(CurrentDocPath); // Save the file to the selected path
 		// Set the Title to reflect the file open
-		SetTitle(wxString("Edit - ") << SaveDialog->GetFilename());
+		SetTitle(wxString("RTD Configuration Editor - ") << SaveDialog->GetFilename());
 	}
  
 	// Clean up after ourselves

@@ -5,16 +5,7 @@
 #ifndef __DART_RTD_CONFEDIT_H_INCLUDED__   
 #define __DART_RTD_CONFEDIT_H_INCLUDED__   
 
-// RTDConfApp is the class for our application, it just acts
-// as a container for the window or frame in RTDConfFrame.
-class RTDConfApp: public wxApp
-{
-public:
-	virtual bool OnInit();
-};
- 
-// RTDConfFrame handles the RTD configuration file editor,
-// and contains the window and all objects in it.
+// RTDConfFrame handles the RTD configuration file editor
 class RTDConfFrame: public wxFrame
 {
 public:
@@ -29,10 +20,11 @@ public:
  
 	wxBoxSizer         * boxRTDConfSizer;
 
-	wxTextCtrl *RTDConfEditBox;
-	wxMenuBar *RTDConfMenu;
+	wxTextCtrl         * RTDConfEditBox;
+	wxMenuBar          * RTDConfMenu;
+
 	// The Path to the file we have open
-	wxString CurrentDocPath;
+	wxString             CurrentDocPath;
  
 	DECLARE_EVENT_TABLE()
 };
