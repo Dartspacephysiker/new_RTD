@@ -9,25 +9,6 @@
 const int ID_PLUS = 101;
 const int ID_MINUS = 102;
 
-class DARTRTD_Measurement { 
-
-  private:
-    std::string        sName;
-    std::string        sAbbrev;
-    std::string        sUser;
-
-    std::string        sRTDDataFile;
-    std::ifstream      fsRTDDataFile;
-
-    std::string        sRTDDataOut;
-    std::ofstream      fsRTDDataOut;
-
-    std::string        sDataType;
-    unsigned short     uDataType;
-
-    long int           lSPS;
-};
-
 class DartRTDApp: public wxApp
 {
 public:
@@ -117,6 +98,44 @@ private:
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
+};
+
+class DARTRTD_Measurement { 
+
+  private:
+    std::string        sName;
+    std::string        sAbbrev;
+    std::string        sUser;
+
+    std::string        sRTDDataFile;
+    std::ifstream      fsRTDDataFile;
+
+    std::string        sRTDDataOut;
+    std::ofstream      fsRTDDataOut;
+
+    unsigned short     uDataType;
+
+    long int           lSPS;
+
+    long int           nFFTSamples;
+    long int           nFFTsToAvg;
+    double           * pFFTInBuff   = NULL;
+    double           * pFFTOutBuff  = NULL;
+
+    //For displaying this measurement
+    SpectrogramPanel * SpecPanel    = NULL;
+    PlotPanel        * PltPanel     = NULL;
+// int* a = NULL;   // Pointer to int, initialize to nothing.
+// int n;           // Size needed for array
+// cin >> n;        // Read in the size
+// a = new int[n];  // Allocate n ints and save ptr in a.
+// for (int i=0; i<n; i++) {
+//     a[i] = 0;    // Initialize all elements to zero.
+// }
+// . . .  // Use a as a normal array
+// delete [] a;  // When done, free memory pointed to by a.
+// a = NULL;     // Clear a to prevent using invalid memory reference.
+
 };
 
 #endif //end #define __DART_RTD_H_INCLUDED__   

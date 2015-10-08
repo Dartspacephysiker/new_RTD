@@ -1,0 +1,1 @@
+g++ -o filedialog filedialog.cpp -Wall `wx-config --cxxflags` `wx-config --libs`
