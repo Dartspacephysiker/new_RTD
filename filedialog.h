@@ -2,20 +2,20 @@
 #include <wx/menu.h>
 #include <wx/textctrl.h>
  
-// MainApp is the class for our application, it just acts
-// as a container for the window or frame in MainFrame.
-class MainApp: public wxApp
+// RTDConfApp is the class for our application, it just acts
+// as a container for the window or frame in RTDConfFrame.
+class RTDConfApp: public wxApp
 {
 public:
 	virtual bool OnInit();
 };
  
-// MainFrame is the class for our window, it
+// RTDConfFrame is the class for our window, it
 // contains the window and all objects in it.
-class MainFrame: public wxFrame
+class RTDConfFrame: public wxFrame
 {
 public:
-	MainFrame( const wxString &title, const wxPoint &pos, const wxSize &size );
+	RTDConfFrame( const wxString &title, const wxPoint &pos, const wxSize &size );
  
 	void Quit( wxCommandEvent& event );
 	void NewFile( wxCommandEvent& event );
@@ -24,8 +24,8 @@ public:
 	void SaveFileAs( wxCommandEvent& event );
 	void CloseFile( wxCommandEvent& event );
  
-	wxTextCtrl *MainEditBox;
-	wxMenuBar *MainMenu;
+	wxTextCtrl *RTDConfEditBox;
+	wxMenuBar *RTDConfMenu;
 	// The Path to the file we have open
 	wxString CurrentDocPath;
  
@@ -44,11 +44,11 @@ enum
 	MENU_Quit
 };
  
-BEGIN_EVENT_TABLE ( MainFrame, wxFrame )
-	EVT_MENU(MENU_New, MainFrame::NewFile)
-	EVT_MENU(MENU_Open, MainFrame::OpenFile) 
-	EVT_MENU(MENU_Close, MainFrame::CloseFile)
-	EVT_MENU(MENU_Save, MainFrame::SaveFile)
-	EVT_MENU(MENU_SaveAs, MainFrame::SaveFileAs)
-	EVT_MENU(MENU_Quit, MainFrame::Quit)
+BEGIN_EVENT_TABLE ( RTDConfFrame, wxFrame )
+	EVT_MENU(MENU_New, RTDConfFrame::NewFile)
+	EVT_MENU(MENU_Open, RTDConfFrame::OpenFile) 
+	EVT_MENU(MENU_Close, RTDConfFrame::CloseFile)
+	EVT_MENU(MENU_Save, RTDConfFrame::SaveFile)
+	EVT_MENU(MENU_SaveAs, RTDConfFrame::SaveFileAs)
+	EVT_MENU(MENU_Quit, RTDConfFrame::Quit)
 END_EVENT_TABLE()
