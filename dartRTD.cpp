@@ -107,6 +107,9 @@ DartRTDFrame::DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSi
     CreateStatusBar();
     SetStatusText( wxString("Current Configuration file: ") << wxString(sCurrentRTDFile) );
 
+    /*Config struct*/
+    psuRTDConfig = new suRTDConfig();
+
     /*Master panel for all displays*/
     MasterPanel = new wxPanel(this, wxID_ANY);
 
@@ -153,20 +156,24 @@ void DartRTDFrame::OnAbout(wxCommandEvent& event)
 }
 void DartRTDFrame::OnLoadRTDConf(wxCommandEvent& event)
 {
-    wxLogMessage("Bout to load dat");
+    wxFileDialog *OpenDialog = new wxFileDialog(
+						this, _("Choose an RTD configuration to open"), wxEmptyString, wxEmptyString,
+						_("RTD Configuration file (*.rtdconf)|*.rtdconf"),
+						wxFD_OPEN, wxDefaultPosition);
+    
+    // Creates a "open file" dialog with .rtdconf file type
+    if (OpenDialog->ShowModal() == wxID_OK) // if the user click "Open" instead of "Cancel"
+	{
+	    SetRTDConfFile(OpenDialog->GetPath().ToStdString());
+	    LoadRTDConfFile(sCurrentRTDFile);
+	}
 
-    // Create an instance of our frame, or window
-    // RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
-    // RTDConfWin->Show(TRUE); // show the window
-    // RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
-    // RTDConfWin->SetFocus();//Raise it to the top!
 }
 
 void DartRTDFrame::OnOpenRTDConf(wxCommandEvent& event)
 {
-    //    wxLogMessage("Bout to load dat");
 
-    // Create an instance of our frame, or window
+    // Create an instance of window for RTD configuration editor
     RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200), this);
     RTDConfWin->Show(TRUE); // show the window
     RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
@@ -178,6 +185,15 @@ void DartRTDFrame::SetRTDConfFile(const std::string sRTDConfFilename)
     sCurrentRTDFile = sRTDConfFilename;
     SetStatusText( wxString("Current Configuration file: ") << wxString(sCurrentRTDFile) );
 
+}
+
+void DartRTDFrame::LoadRTDConfFile(const std::string sRTDConfFilename)
+{
+    wxLogMessage(wxString("Bout to load ") << wxString(sCurrentRTDFile));
+
+    iInitRTDConfigFromASCII(sCurrentRTDFile.c_str(), psuRTDConfig, 1);
+    //Update status bar
+    SetStatusText( wxString("Current Configuration file: ") << wxString(sCurrentRTDFile) );
 }
 
 /*Panels*/
@@ -213,6 +229,9 @@ void SpectrogramPanel::OnMinus(wxCommandEvent & WXUNUSED(event))
 
   DartRTDFrame *comm = (DartRTDFrame *) SpecNMeasPanel->GetParent()->GetParent();
   comm->mMeasListPanel->m_text->SetLabel(wxString::Format(wxT("%d"), count));
+
+  m_text = new wxStaticText(this, -1, wxT("Spectrograms live here"), wxPoint(100, 100));
+
 }
 
 /*The panel that holds the list of available measurements*/
@@ -221,13 +240,14 @@ MeasListPanel::MeasListPanel(wxPanel * panSpecNMeas)
          wxSize(DRTD_MIN_ML_WIDTH, DRTD_MIN_SPEC_HEIGHT), wxBORDER_SUNKEN)
 {
     m_text = new wxStaticText(this, -1, wxT("0"), wxPoint(40, 60));
+    m_text = new wxStaticText(this, -1, wxT("Spectrogram control panel"), wxPoint(10, 100));
 }
 
 PlotPanel::PlotPanel(wxPanel * panPlotParent)
        : wxPanel(panPlotParent, wxID_ANY, wxDefaultPosition, 
          wxSize(DRTD_MIN_PLOT_WIDTH, DRTD_MIN_PLOT_HEIGHT), wxBORDER_SUNKEN)
 {
-    m_text = new wxStaticText(this, -1, wxT("The plot panel"), wxPoint(40, 60));
+    m_text = new wxStaticText(this, -1, wxT("Plot panel"), wxPoint(40, 60));
 }
 
 PlotCtlPanel::PlotCtlPanel(wxPanel * panPlotParent)

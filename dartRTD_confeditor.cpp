@@ -18,28 +18,28 @@ RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSi
 	wxMenu *FileMenu = new wxMenu();
  
 	FileMenu->Append(RTDCONFEDIT_Load,
-		_("&Load"), _("Load the RTD configuration file that is currently open"));
+		_("&Load RTD Config...\tCtrl-L"), _("Load the RTD configuration file that is currently open"));
  
 	FileMenu->AppendSeparator();
 
 	FileMenu->Append(RTDCONFEDIT_New,
-		_("&New"), _("Create a new RTD configuration file"));
+		_("&New...\tCtrl-N"), _("Create a new RTD configuration file"));
  
 	FileMenu->AppendSeparator();
 	FileMenu->Append(RTDCONFEDIT_Open,
-		_("&Open"), _("Open an existing RTD configuration file"));
+		_("&Open...\tCtrl-O"), _("Open an existing RTD configuration file"));
 	FileMenu->Append(RTDCONFEDIT_Close,
-		_("&Close"), _("Close the current RTD configuration file"));
+		_("&Close...\tCtrl-W"), _("Close the current RTD configuration file"));
  
 	FileMenu->AppendSeparator();
 	FileMenu->Append(RTDCONFEDIT_Save,
-		_("&Save"), _("Save the current RTD configuration file"));
+		_("&Save...\tCtrl-S"), _("Save the current RTD configuration file"));
 	FileMenu->Append(RTDCONFEDIT_SaveAs,
-		_("Save &As"), _("Save the current RTD configure with a different filename"));
+		_("Save &As...\tCtrl-Alt-S"), _("Save the current RTD configure with a different filename"));
  
 	FileMenu->AppendSeparator();
 	FileMenu->Append(RTDCONFEDIT_Quit,
-		_("&Quit"), _("Close the RTD configuration editor window"));
+		_("&Quit...\tCtrl-Q"), _("Close the RTD configuration editor window"));
  
 	RTDConfMenu->Append(FileMenu, _("&File"));
 	SetMenuBar(RTDConfMenu);
@@ -56,7 +56,7 @@ RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSi
 void RTDConfFrame::LoadConfFile(wxCommandEvent& WXUNUSED(event))
 {
     parentFrame->SetRTDConfFile(sCurrentConfFile);
-    wxLogMessage("Bout to load dat");
+    parentFrame->LoadRTDConfFile(sCurrentConfFile);
 }
  
 
@@ -77,7 +77,7 @@ void RTDConfFrame::OpenConfFile(wxCommandEvent& WXUNUSED(event))
 		_("RTD Configuration file (*.rtdconf)|*.rtdconf"),
 		wxFD_OPEN, wxDefaultPosition);
  
-	// Creates a "open file" dialog with 4 file types
+	// Creates a "open file" dialog with .rtdconf file type
 	if (OpenDialog->ShowModal() == wxID_OK) // if the user click "Open" instead of "cancel"
 	{
 		CurrentDocPath = OpenDialog->GetPath();

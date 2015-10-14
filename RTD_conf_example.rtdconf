@@ -4,7 +4,7 @@
 #  -->A line beginning with '#' is treated as a comment
 #
 #  -->A line beginning with ';' marks the end of an array.
-#     If ';' is the ONLY value below an array keyword (e.g., MEAS_LSB_WORD), it is special shorthand to indicate
+#     If ';' is the ONLY value below an array keyword, it is special shorthand to indicate
 #        that all corresponding array values should be zero.
 #
 #  -->A line beginning with any of the following is read into the program:
@@ -44,6 +44,7 @@
 #
 ##################################################################################
 NAME			:TM1
+N_MEASUREMENTS          :8
 
 #################
 #Array variables#

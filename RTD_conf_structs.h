@@ -3,6 +3,8 @@
 #ifndef __DART_RTD_STRUCTS_H__
 #define __DART_RTD_STRUCTS_H__
 
+#include <inttypes.h>
+
 /* static const char * szRTDConfigValNames[]   = {"NAME", */
 /* 					       "N_MEASUREMENTS"}; */
 

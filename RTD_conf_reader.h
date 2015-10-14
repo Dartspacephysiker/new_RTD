@@ -20,10 +20,12 @@
 #include <inttypes.h>
 #include <assert.h>
 
-#define  RTD_DEF_STRING_SIZE    1024
-#define  RTD_CONF_DEBUG            0  /*Turn on debug to see what is read from the ASCII config file*/
+#include "RTD_conf_structs.h"
 
-int iInitRTDConfigFromASCII(char * szRTDConfFile, struct suRTDConfig * psuRTDConfig, uint8_t bDebug );
+#define  RTD_DEF_STRING_SIZE    1024
+#define  RTD_CONF_DEBUG            1  /*Turn on debug to see what is read from the ASCII config file*/
+
+int iInitRTDConfigFromASCII(const char * szRTDConfFile, struct suRTDConfig * psuRTDConfig, uint8_t bDebug );
 void vInitRTDConfigArrays(struct suRTDConfig * psuRTDConfig);
 int iRTDFree(struct suRTDConfig * psuRTDConfig);
 char * trimwhitespace(char * str);

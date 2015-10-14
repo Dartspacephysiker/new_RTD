@@ -6,6 +6,11 @@
 
 #include <fstream>
 
+extern "C" {
+    //Want to use ascii_conf_reader to read in an RTD conf file
+    #include "RTD_conf_structs.h"
+}
+
 const int ID_PLUS = 101;
 const int ID_MINUS = 102;
 
@@ -29,6 +34,7 @@ public:
     wxPanel *SpecNMeasPanel;
     int count;
 
+    wxStaticText *m_text;
 };
 
 /*The panel that holds the list of available measurements*/
@@ -79,7 +85,10 @@ public:
     DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
     
     void SetRTDConfFile(const std::string sRTDConfFilename);
+    void LoadRTDConfFile(const std::string sRTDConfFilename);
     std::string          sCurrentRTDFile;
+
+    struct suRTDConfig * psuRTDConfig;
 
     wxPanel            * MasterPanel;
 

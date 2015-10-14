@@ -1,7 +1,7 @@
 #include "RTD_conf_reader.h"
 #include "RTD_conf_structs.h"
 
-int iInitRTDConfigFromASCII(char * szRTDConfFile, struct suRTDConfig * psuRTDConfig, uint8_t bDebug )
+int iInitRTDConfigFromASCII(const char * szRTDConfFile, struct suRTDConfig * psuRTDConfig, uint8_t bDebug )
 {
     int iArgIdx;
 
