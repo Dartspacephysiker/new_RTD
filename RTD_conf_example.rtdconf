@@ -1,0 +1,149 @@
+#Description of RTD configuration file, to be read by dartRTD
+#
+#NOTE the following:
+#  -->A line beginning with '#' is treated as a comment
+#
+#  -->A line beginning with ';' marks the end of an array.
+#     If ';' is the ONLY value below an array keyword (e.g., MEAS_LSB_WORD), it is special shorthand to indicate
+#        that all corresponding array values should be zero.
+#
+#  -->A line beginning with any of the following is read into the program:
+#
+#	Values
+#	======
+#	NAME                                     //Name of the {device,TCP/IP connection, TM link} providing data
+#	N_MEASUREMENTS                           //Number of measurements in this link
+#
+#       Example for variable that is a single value
+#       *******************************************
+#       NAME			:TM_LINK1
+#
+#	Arrays
+#	======
+#	MEAS_NAME
+#	MEAS_ABBREV
+#	MEAS_USER
+#	MEAS_BYTE_RTD_SIZE
+#	MEAS_DATA_TYPE
+#	MEAS_RTD_UPDATE_RATE
+#	MEAS_SAMPLE_RATE
+#	MEAS_MIN_FREQ
+#       MEAS_MAX_FREQ
+#
+#       Example for variable that is an array
+#       *************************************
+#       MEAS_NAME
+#       ELF-ALO
+#       ELF-BLO
+#       ELF-AHI
+#       ELF-BHI
+#       ;
+#(remember that a semicolon terminates the reading of an array)
+#
+#******SPECIAL VALUES******
+#
+##################################################################################
+NAME			:TM1
+
+#################
+#Array variables#
+#################
+
+MEAS_NAME
+ELF-ALO
+ELF-AHI
+ELF-BLO
+ELF-BHI
+VF-ALO
+VF-AHI
+VLF-ALO
+VLF-AHI
+;
+
+MEAS_ABBREV
+ELF-ALO
+ELF-AHI
+ELF-BLO
+ELF-BHI
+VF-ALO
+VF-AHI
+VLF-ALO
+VLF-AHI
+;
+
+MEAS_USER
+Dartmouth
+Dartmouth
+Dartmouth
+Dartmouth
+Dartmouth
+Dartmouth
+Dartmouth
+Dartmouth
+;
+
+MEAS_BYTE_RTD_SIZE
+2048
+2048
+2048
+2048
+8192
+8192
+65536
+65536
+;
+
+MEAS_DATA_TYPE
+UINT16
+UINT16
+UINT16
+UINT16
+UINT16
+UINT16
+UINT16
+UINT16
+;
+
+MEAS_RTD_UPDATE_RATE
+1
+1
+1
+1
+1
+1
+1
+1
+;
+
+MEAS_SAMPLE_RATE
+1000
+1000
+1000
+1000
+8000
+8000
+80000
+80000
+;
+
+MEAS_MIN_FREQ
+0
+0
+0
+0
+0
+0
+1000
+1000
+;
+
+MEAS_MAX_FREQ
+200
+200
+200
+200
+1000
+1000
+20000
+20000
+;

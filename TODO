@@ -1,0 +1,23 @@
+Add
+===
+
+Read ASCII config file, show name of current config file
+Implement basic plPlot
+
+"Load new RTD config [Ctrl+L]"
+-->How is the RTD initialized? Do we require a file on startup?
+-->How are you going to handle loading a new config?
+-->Copy of old RTD config kept in case new one is garbage
+
+start with uint16_t and complex data for FFTs
+
+Drop-down menu for spectrum plots
+
+Each measurement class will need its own panel for displaying or hiding
+The sizer object for the spectrogram area may need to keep track of how many friends it is currently trying to display.
+
+For channel checking
+====================
+Ability to enable/disable checking for specific channel
+Ability to dynamically change num displays
+

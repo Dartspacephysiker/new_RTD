@@ -152,7 +152,7 @@ void DartRTDFrame::OnLoadRTDConf(wxCommandEvent& event)
     //    wxLogMessage("Bout to load dat");
 
     // Create an instance of our frame, or window
-    RTDConfFrame *RTDConfWin = new RTDConfFrame(_("Edit"), wxPoint(1, 1), wxSize(300, 200));
+    RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
     RTDConfWin->Show(TRUE); // show the window
     RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
     RTDConfWin->SetFocus();//Raise it to the top!

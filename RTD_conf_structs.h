@@ -22,7 +22,6 @@ struct suRTDConfig
 {
 
     char            szName[128];
-
     int16_t         iNMeasurements;
 
     //Arrays to hold measurement info from ASCII file
