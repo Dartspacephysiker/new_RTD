@@ -43,23 +43,25 @@ extern "C" {
 enum
 {
     ID_LoadRTDConf = 1,
-
+    ID_OpenRTDConf = 2,
     ID_MENUVIEW    = 3
 };
 
 wxBEGIN_EVENT_TABLE(DartRTDFrame, wxFrame)
     EVT_MENU(ID_LoadRTDConf,   DartRTDFrame::OnLoadRTDConf)
+    EVT_MENU(ID_OpenRTDConf,   DartRTDFrame::OnOpenRTDConf)
     EVT_MENU(wxID_EXIT,        DartRTDFrame::OnExit)
     EVT_MENU(wxID_ABOUT,       DartRTDFrame::OnAbout)
 
 wxEND_EVENT_TABLE()
 
 BEGIN_EVENT_TABLE ( RTDConfFrame, wxFrame )
-	EVT_MENU(RTDCONFEDIT_New, RTDConfFrame::NewFile)
-	EVT_MENU(RTDCONFEDIT_Open, RTDConfFrame::OpenFile) 
-	EVT_MENU(RTDCONFEDIT_Close, RTDConfFrame::CloseFile)
-	EVT_MENU(RTDCONFEDIT_Save, RTDConfFrame::SaveFile)
-	EVT_MENU(RTDCONFEDIT_SaveAs, RTDConfFrame::SaveFileAs)
+	EVT_MENU(RTDCONFEDIT_Load, RTDConfFrame::LoadConfFile)
+	EVT_MENU(RTDCONFEDIT_New, RTDConfFrame::NewConfFile)
+	EVT_MENU(RTDCONFEDIT_Open, RTDConfFrame::OpenConfFile) 
+	EVT_MENU(RTDCONFEDIT_Close, RTDConfFrame::CloseConfFile)
+	EVT_MENU(RTDCONFEDIT_Save, RTDConfFrame::SaveConfFile)
+	EVT_MENU(RTDCONFEDIT_SaveAs, RTDConfFrame::SaveConfFileAs)
 	EVT_MENU(RTDCONFEDIT_Quit, RTDConfFrame::Quit)
 END_EVENT_TABLE()
 
@@ -83,6 +85,8 @@ DartRTDFrame::DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSi
     menuFile = new wxMenu;
     menuFile->Append(ID_LoadRTDConf, "&Load RTD Config...\tCtrl-L",
                      "Load an RTD configuration file");
+    menuFile->Append(ID_OpenRTDConf, "&Open RTDConf Editor...\tCtrl-O",
+                     "Open RTD configuration editor");
     menuFile->AppendSeparator();
     menuFile->Append(wxID_EXIT);
 
@@ -101,7 +105,7 @@ DartRTDFrame::DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSi
 
     SetMenuBar( menuBar );
     CreateStatusBar();
-    SetStatusText( "Current Configuration file: [code me please]" );
+    SetStatusText( wxString("Current Configuration file: ") << wxString(sCurrentRTDFile) );
 
     /*Master panel for all displays*/
     MasterPanel = new wxPanel(this, wxID_ANY);
@@ -149,13 +153,31 @@ void DartRTDFrame::OnAbout(wxCommandEvent& event)
 }
 void DartRTDFrame::OnLoadRTDConf(wxCommandEvent& event)
 {
+    wxLogMessage("Bout to load dat");
+
+    // Create an instance of our frame, or window
+    // RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
+    // RTDConfWin->Show(TRUE); // show the window
+    // RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
+    // RTDConfWin->SetFocus();//Raise it to the top!
+}
+
+void DartRTDFrame::OnOpenRTDConf(wxCommandEvent& event)
+{
     //    wxLogMessage("Bout to load dat");
 
     // Create an instance of our frame, or window
-    RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200));
+    RTDConfFrame *RTDConfWin = new RTDConfFrame(_("RTD Configuration Editor"), wxPoint(1, 1), wxSize(300, 200), this);
     RTDConfWin->Show(TRUE); // show the window
     RTDConfWin->Iconize(false); //Raise it from the dead (i.e., task bar)
     RTDConfWin->SetFocus();//Raise it to the top!
+}
+
+void DartRTDFrame::SetRTDConfFile(const std::string sRTDConfFilename)
+{
+    sCurrentRTDFile = sRTDConfFilename;
+    SetStatusText( wxString("Current Configuration file: ") << wxString(sCurrentRTDFile) );
+
 }
 
 /*Panels*/

@@ -3,18 +3,18 @@
 #ifndef __DART_RTD_STRUCTS_H__
 #define __DART_RTD_STRUCTS_H__
 
-static const char * szRTDConfigValNames[]   = {"NAME",
-					       "N_MEASUREMENTS"};
+/* static const char * szRTDConfigValNames[]   = {"NAME", */
+/* 					       "N_MEASUREMENTS"}; */
 
-static const char  * szRTDConfigArrNames[]   = {"MEAS_NAME",
-						"MEAS_ABBREV",
-						"MEAS_USER",
-						"MEAS_BYTE_RTD_SIZE",
-						"MEAS_DATA_TYPE",
-						"MEAS_RTD_UPDATE_RATE",
-						"MEAS_SAMPLE_RATE",
-						"MEAS_MIN_FREQ",
-						"MEAS_MAX_FREQ"};
+/* static const char  * szRTDConfigArrNames[]   = {"MEAS_NAME", */
+/* 						"MEAS_ABBREV", */
+/* 						"MEAS_USER", */
+/* 						"MEAS_BYTE_RTD_SIZE", */
+/* 						"MEAS_DATA_TYPE", */
+/* 						"MEAS_RTD_UPDATE_RATE", */
+/* 						"MEAS_SAMPLE_RATE", */
+/* 						"MEAS_MIN_FREQ", */
+/* 						"MEAS_MAX_FREQ"}; */
 
 enum DARTRTD_enumDataTypes { UINT16, UINT32, UINT64, INT16, INT32, INT64, COMPLEX };
 

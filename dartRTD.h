@@ -77,6 +77,9 @@ class DartRTDFrame: public wxFrame
 
 public:
     DartRTDFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    
+    void SetRTDConfFile(const std::string sRTDConfFilename);
+    std::string          sCurrentRTDFile;
 
     wxPanel            * MasterPanel;
 
@@ -95,6 +98,7 @@ public:
 private:
     void OnHello(wxCommandEvent& event);
     void OnLoadRTDConf(wxCommandEvent& event);
+    void OnOpenRTDConf(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
     void OnAbout(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();

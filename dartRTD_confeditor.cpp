@@ -2,19 +2,26 @@
 #include <wx/wxprec.h>
  
 #ifndef WX_PRECOMP
-#	include <wx/wx.h>
+#include <wx/wx.h>
 #endif
  
 #include "dartRTD_confeditor.h"
  
-RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSize &size)
+RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSize &size, DartRTDFrame *callingFrame )
 : wxFrame((wxFrame*) NULL, -1, title, pos, size)
 {
 	CreateStatusBar(2);
  
+	parentFrame = callingFrame;
+
 	RTDConfMenu = new wxMenuBar();
 	wxMenu *FileMenu = new wxMenu();
  
+	FileMenu->Append(RTDCONFEDIT_Load,
+		_("&Load"), _("Load the RTD configuration file that is currently open"));
+ 
+	FileMenu->AppendSeparator();
+
 	FileMenu->Append(RTDCONFEDIT_New,
 		_("&New"), _("Create a new RTD configuration file"));
  
@@ -46,7 +53,14 @@ RTDConfFrame::RTDConfFrame(const wxString &title, const wxPoint &pos, const wxSi
 	this->SetSizerAndFit(boxRTDConfSizer);
 }
  
-void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
+void RTDConfFrame::LoadConfFile(wxCommandEvent& WXUNUSED(event))
+{
+    parentFrame->SetRTDConfFile(sCurrentConfFile);
+    wxLogMessage("Bout to load dat");
+}
+ 
+
+void RTDConfFrame::NewConfFile(wxCommandEvent& WXUNUSED(event))
 {
 	// Clear the edit box
 	RTDConfEditBox->Clear();
@@ -56,7 +70,7 @@ void RTDConfFrame::NewFile(wxCommandEvent& WXUNUSED(event))
 	SetTitle(_("RTD Configuration Editor - untitled.rtdconf *"));
 }
  
-void RTDConfFrame::OpenFile(wxCommandEvent& WXUNUSED(event))
+void RTDConfFrame::OpenConfFile(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog *OpenDialog = new wxFileDialog(
 		this, _("Choose an RTD configuration to open"), wxEmptyString, wxEmptyString,
@@ -70,12 +84,15 @@ void RTDConfFrame::OpenFile(wxCommandEvent& WXUNUSED(event))
  
 		// Sets our current RTD configuration file to the file the user selected
 		RTDConfEditBox->LoadFile(CurrentDocPath); //Opens that file
+
+		SetConfFilename(OpenDialog->GetFilename());
+
 		// Set the Title to reflect the  file open
-		SetTitle(wxString("RTD Configuration Editor - ") << OpenDialog->GetFilename());
+		SetTitle(wxString("RTD Configuration Editor - ") << OpenDialog->GetFilename()); 
 	}
 }
  
-void RTDConfFrame::CloseFile(wxCommandEvent& WXUNUSED(event))
+void RTDConfFrame::CloseConfFile(wxCommandEvent& WXUNUSED(event))
 {
 	// Clear the Text Box
 	RTDConfEditBox->Clear();
@@ -85,13 +102,13 @@ void RTDConfFrame::CloseFile(wxCommandEvent& WXUNUSED(event))
 	SetTitle(_("RTD Configuration Editor - untitled.rtdconf *"));
 }
  
-void RTDConfFrame::SaveFile(wxCommandEvent& WXUNUSED(event))
+void RTDConfFrame::SaveConfFile(wxCommandEvent& WXUNUSED(event))
 {
 	// Save to the already-set path for the document
 	RTDConfEditBox->SaveFile(CurrentDocPath);
 }
  
-void RTDConfFrame::SaveFileAs(wxCommandEvent& WXUNUSED(event))
+void RTDConfFrame::SaveConfFileAs(wxCommandEvent& WXUNUSED(event))
 {
 	wxFileDialog *SaveDialog = new wxFileDialog(
 		this, _("Save File As _?"), wxEmptyString, wxEmptyString,
@@ -110,6 +127,11 @@ void RTDConfFrame::SaveFileAs(wxCommandEvent& WXUNUSED(event))
  
 	// Clean up after ourselves
 	SaveDialog->Destroy();
+}
+
+void RTDConfFrame::SetConfFilename( const wxString confFilename )
+{
+    sCurrentConfFile = confFilename.ToStdString();
 }
  
 void RTDConfFrame::Quit(wxCommandEvent& WXUNUSED(event))
