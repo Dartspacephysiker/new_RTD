@@ -30,3 +30,9 @@
 #No executables
 dartRTD
 filedialog
+
+#ignore symlink to plplot examples
+symlink_to_cpp_plplot_examples
+
+#No temps
+*~
