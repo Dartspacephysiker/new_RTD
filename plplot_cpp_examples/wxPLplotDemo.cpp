@@ -21,14 +21,14 @@
 //
 
 // For compilers that support precompilation, includes "wx/wx.h".
-#include "wx/wxprec.h"
+#include <wx/wxprec.h>
 
 #ifdef __BORLANDC__
     #pragma hdrstop
 #endif
 
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+    #include <wx/wx.h>
 #endif
 
 #ifdef __WXMAC__
@@ -36,7 +36,7 @@
 extern "C" { void CPSEnableForegroundOperation( ProcessSerialNumber* psn ); }
 #endif
 
-#include "wxPLplotwindow.h"
+#include <plplot/wxPLplotwindow.h>
 #include <cmath>
 
 #define MAX( a, b )    ( ( a ) < ( b ) ? ( b ) : ( a ) )

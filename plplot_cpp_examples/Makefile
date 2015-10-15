@@ -81,7 +81,7 @@ clean:
 	rm -f $(EXECUTABLES_list)
 
 wxPLplotDemo$(EXEEXT): wxPLplotDemo.cpp
-	$(CXX) $< -o $@ $(RPATHCMD) `$(PKG_CONFIG_ENV) pkg-config  --cflags --libs plplot$(LIB_TAG)-wxwidgets` -c -Wall `wx-config --cxxflags`
+	$(CXX) $< -o $@ $(RPATHCMD) `$(PKG_CONFIG_ENV) pkg-config  --cflags --libs plplot$(LIB_TAG)-wxwidgets` -Wall `wx-config --cxxflags`
 
 # Note, must filter out -p options which confuse $(QT_MOC_EXECUTABLE).  Such
 # options (e.g., -pthread) tend to appear in the static driver case.
