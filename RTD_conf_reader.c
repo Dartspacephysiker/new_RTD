@@ -3,7 +3,7 @@
 
 int iInitRTDConfigFromASCII(const char * szRTDConfFile, struct suRTDConfig * psuRTDConfig, uint8_t bDebug )
 {
-    int iArgIdx;
+    //    int iArgIdx;
 
     FILE              * psuRTDConfFile;
     char              *  szLine;
@@ -120,7 +120,7 @@ void vInitRTDConfigArrays(struct suRTDConfig * psuRTDConfig)
 
     int nMeas;
     int iMeasIdx;
-    int iArgIdx;
+    //    int iArgIdx;
 
     nMeas = psuRTDConfig->iNMeasurements;
 

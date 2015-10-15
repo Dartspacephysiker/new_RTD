@@ -143,7 +143,6 @@ char * trimwhitespace(char * str);
 		    {							\
 		    if ( iCnt == 0 ) /*init to zero*/			\
 			{						\
-			int iTmp;					\
 			for ( iCnt = 0; iCnt < nArrElem; iCnt++ )	\
 			    {						\
 				pStruct->pauField[iCnt] = 0;		\

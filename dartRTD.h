@@ -5,6 +5,8 @@
 
 
 #include <fstream>
+#include <plplot/wxPLplotwindow.h>
+#include <cmath>
 
 extern "C" {
     //Want to use ascii_conf_reader to read in an RTD conf file
@@ -71,6 +73,19 @@ public:
 
     wxStaticText *m_text;
 
+};
+
+class PLPlotwindow : public wxPLplotwindow
+{
+public:
+    PLPlotwindow( wxFrame* frame, wxWindow* parent, wxWindowID id = -1, const wxPoint& pos = wxDefaultPosition,
+                  const wxSize& size = wxDefaultSize, long style = 0,
+                  int pl_style = wxPLPLOT_NONE );
+
+    void OnChar( wxKeyEvent& event );
+
+private:
+    wxFrame* mframe;
 };
 
 class DartRTDFrame: public wxFrame
